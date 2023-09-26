@@ -12,77 +12,70 @@ let valorAnterior = "";
 let calculando = false;
 
 // Funções
-const atualizaDisplay = () => {
+function atualizaDisplay()  {
   display.value = operacaoAtual;
-};
+}
 
-const insereNumero = (evento) => {
-  if(calculando) {
-    operacaoAtual = evento.target.textContent;
-    calculando = false;
-  } else {
-    operacaoAtual += evento.target.textContent;
-  }
-  atualizaDisplay();
-};
-
-const insereOperador = (evento) => {
-  if(operacaoAtual !== "") {
-    if(!calculando) {
-      if(operador !== null) calcula();
-      valorAnterior = operacaoAtual;
-      operacaoAtual = "";
+function inserePonto() {
+    if(operacaoAtual.indexOf(".") === -1) {
+      operacaoAtual += ".";
+      atualizaDisplay();
     }
-    operador = evento.target.textContent;
-  }
-};
+}
 
-const calcula = () => {
-  let resultado = null;
-  const operandoAnterior = parseFloat(valorAnterior);
-  const operandoAtual = parseFloat(operacaoAtual);
-
-  switch(operador) {
-    case "+":
-      resultado = operandoAnterior + operandoAtual;
-      break;
-    case "-":
-      resultado = operandoAnterior - operandoAtual;
-      break;
-    case "*":
-      resultado = operandoAnterior * operandoAtual;
-      break;
-    case "/":
-      if (operandoAtual !== 0) {
-        resultado = operandoAnterior / operandoAtual;
-      } else {
-        alert("Erro: Divisão por zero não é permitida!");
-        return;
-      }
-      break;
-  }
-  operacaoAtual = String(resultado);
-  valorAnterior = operacaoAtual;
-  calculando = true;
-  atualizaDisplay();
-};
-
-const inserePonto = () => {
-  if(operacaoAtual.indexOf(".") === -1) {
-    operacaoAtual += ".";
+function insereNumero(evento) {
+    if(calculando) {
+      operacaoAtual = evento.target.textContent;
+      calculando = false;
+    } else {
+      operacaoAtual += evento.target.textContent;
+    }
     atualizaDisplay();
-  }
-};
+}
 
-// EventListeners
-botaoIgual.addEventListener("click", () => {
-  if(operador !== null && operacaoAtual !== "" && !calculando) {
-    calcula();
-    operador = null;
+function insereOperador(evento) {
+  if(operacaoAtual !== "") {
+      if(!calculando) {
+          if(operador !== null) {
+              calcula();
+          }
+          valorAnterior = operacaoAtual
+          operacaoAtual = "";
+      }
+      operador = evento.target.textContent;
   }
-});
+  
+}
+
+function calcula() {
+  
+    let resultado = null;
+    const operandoAnterior = parseFloat(valorAnterior);
+    const operandoAtual = parseFloat(operacaoAtual);
+
+    switch(operador) {
+        case "+":
+          resultado = operandoAnterior + operacaoAtual;
+          break;
+        case "-":
+          resultado = operandoAnterior - operacaoAtual;
+          break;
+        case "*":
+          resultado = operandoAnterior * operacaoAtual;
+          break;
+        case "/":
+          resultado = operandoAnterior / operacaoAtual;
+          break;
+    }
+
+    operacaoAtual = String(resultado);
+    valorAnterior = operacaoAtual;
+    calculando = true;
+    atualizaDisplay();
+}
+
+// Eventos
 botaoPonto.addEventListener("click", inserePonto);
 botoesNumeros.forEach((botao) => botao.addEventListener("click", insereNumero));
-botoesOperadores.forEach((botao) =>
-  botao.addEventListener("click", insereOperador)
-);
+botoesOperadores.forEach((botao) => botao.addEventListener("click", insereOperador));
+botaoIgual.addEventListener("click", calcula);
