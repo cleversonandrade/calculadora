@@ -7,8 +7,8 @@ const botoesOperadores = document.querySelectorAll(".operador");
 
 // Variáveis globais
 let operacaoAtual = "";
-let operador = null;
 let valorAnterior = "";
+let operador = null;
 let calculando = false;
 
 // Funções
@@ -52,23 +52,23 @@ function calcula() {
     let resultado = null;
     const operandoAnterior = parseFloat(valorAnterior);
     const operandoAtual = parseFloat(operacaoAtual);
-
+    
     switch(operador) {
         case "+":
-          resultado = operandoAnterior + operacaoAtual;
+          resultado = operandoAnterior + operandoAtual;
           break;
         case "-":
-          resultado = operandoAnterior - operacaoAtual;
+          resultado = operandoAnterior - operandoAtual;
           break;
         case "*":
-          resultado = operandoAnterior * operacaoAtual;
+          resultado = operandoAnterior * operandoAtual;
           break;
         case "/":
-          resultado = operandoAnterior / operacaoAtual;
+          resultado = operandoAnterior / operandoAtual;
           break;
     }
 
-    operacaoAtual = String(resultado);
+    operacaoAtual = resultado;
     valorAnterior = operacaoAtual;
     calculando = true;
     atualizaDisplay();
